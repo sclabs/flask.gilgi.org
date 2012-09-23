@@ -1,6 +1,6 @@
-window.onload = setStatus;
+window.onload = awsOnline;
 
-function setStatus() {
+function awsOnline() {
     document.getElementById('awsstatus').innerHTML += 'Online';
     document.getElementById('awsbar').style.display = 'none';
 }

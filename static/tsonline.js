@@ -1,6 +1,6 @@
-window.onload = setStatus;
+window.onload = tsOnline;
 
-function setStatus() {
+function tsOnline() {
     document.getElementById('tsstatus').innerHTML += 'Online';
     document.getElementById('tsbar').style.display = 'none';
 }

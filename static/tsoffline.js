@@ -1,6 +1,6 @@
-window.onload = setStatus;
+window.onload = tsOffline;
 
-function setStatus() {
+function tsOffline() {
     document.getElementById('tsstatus').innerHTML += 'Offline';
     document.getElementById('tsbar').style.display = 'none';
 }
