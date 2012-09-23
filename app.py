@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 
 app = Flask(__name__)
 
@@ -9,9 +9,7 @@ def hello():
 
 @app.route('/tsstatus', methods=['GET'])
 def tsstatus():
-    response = make_response(open('tsoffline.js').read())
-    response.headers["Content-type"] = "text/javascript"
-    return response
+    return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
