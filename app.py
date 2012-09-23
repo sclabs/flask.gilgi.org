@@ -7,7 +7,7 @@ app = Flask(__name__)
 def hello():
     return 'Hello World!'
 
-@app.route('/tsstatus')
+@app.route('/tsstatus', methods=['GET'])
 def tsstatus():
     response = make_response(open('tsoffline.js').read())
     response.headers["Content-type"] = "text/javascript"
