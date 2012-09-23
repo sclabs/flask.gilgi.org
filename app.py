@@ -1,9 +1,11 @@
 import os
 import PyTS3
 from flask import Flask, send_from_directory
+from timeout import timeout
 
 app = Flask(__name__)
 
+@timeout(2, False)
 def isOnline(address, port=10011):
     server = PyTS3.ServerQuery(address, port)
     try:
