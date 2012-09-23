@@ -2,7 +2,6 @@ import os
 #import PyTS3
 import telnetlib
 from flask import Flask, send_from_directory
-from timeout import timeout
 
 app = Flask(__name__)
 
