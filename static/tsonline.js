@@ -1,6 +1,6 @@
-window.onload = tsOnline;
+//window.onload = tsOnline;
 
-function tsOnline() {
+//function tsOnline() {
     document.getElementById('tsstatus').innerHTML += 'Online';
     document.getElementById('tsbar').style.display = 'none';
-}
+//}
