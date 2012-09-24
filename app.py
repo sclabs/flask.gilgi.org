@@ -5,16 +5,6 @@ from flask import Flask, send_from_directory
 
 app = Flask(__name__)
 
-"""
-def isOnline(address, port=10011):
-    server = PyTS3.ServerQuery(address, port)
-    try:
-        status = server.connect()
-        return status
-    except:
-        return False
-"""
-
 def telnet(address, port=10011, timeout=2):
     try:
         connection = telnetlib.Telnet(address, port, timeout)
@@ -29,20 +19,17 @@ def telnet(address, port=10011, timeout=2):
 def hello():
     return 'Hello World!'
 
-@app.route('/tsstatus', methods=['GET'])
+@app.route('/tsstatus/script', methods=['GET'])
 def tsstatus():
-    #if isOnline('ts.gilgi.org'):
     if telnet('ts.gilgi.org'):
         return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
     return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
 
-@app.route('/awsstatus', methods=['GET'])
-def awsstatus():
-    #if isOnline('aws.gilgi.org'):
-    if telnet('aws.gilgi.org'):
-        return send_from_directory("static", "awsonline.js", mimetype="text/javascript")
-    return send_from_directory("static", "awsoffline.js", mimetype="text/javascript")
-
+@app.route('/tsstatus/title', methods=['GET'])
+def tsstatus():
+    if telnet('ts.gilgi.org'):
+        return send_from_directory("static", "tsonline.html", mimetype="text/html")
+    return send_from_directory("static", "tsoffline.html", mimetype="text/html")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
