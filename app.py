@@ -19,13 +19,13 @@ def hello():
     return 'Hello World!'
 
 @app.route('/tsstatus/script', methods=['GET'])
-def tsstatus():
+def tsstatus_script():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "tsonlinescript.js", mimetype="text/javascript")
-    return send_from_directory("static", "tsofflinescript.js", mimetype="text/javascript")
+        return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
+    return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
 
 @app.route('/tsstatus/title', methods=['GET'])
-def tsstatus():
+def tsstatus_html():
     if telnet('ts.gilgi.org'):
         return send_from_directory("static", "tsonline.html", mimetype="text/html")
     return send_from_directory("static", "tsoffline.html", mimetype="text/html")
