@@ -27,10 +27,10 @@ def tsstatus_script():
 
 @app.route('/tsstatus/jsonp', methods=['GET'])
 @support_jsonp
-def tsstatus_script(callback='callback'):
+def tsstatus_script():
     if telnet('ts.gilgi.org'):
-        return jsonify({'status': 'online'})
-    return jsonify({'status': 'offline'})
+        return jsonify({'status': 'online'}, callback='callback')
+    return jsonify({'status': 'offline'}, callback='callback')
 
 @app.route('/tsstatus/title', methods=['GET'])
 def tsstatus_html():
