@@ -25,7 +25,7 @@ def tsstatus_script():
         return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
     return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
 
-@app.route('/tsstatus/jsonp', methods=['GET'])
+@app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
 def tsstatus_script():
     if telnet('ts.gilgi.org'):
