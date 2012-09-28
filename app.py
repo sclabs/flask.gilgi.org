@@ -20,8 +20,14 @@ def hello():
     return 'Hello World!'
 
 @app.route('/tsstatus/script', methods=['GET'])
-@support_jsonp
 def tsstatus_script():
+    if telnet('ts.gilgi.org'):
+        return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
+    return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
+
+@app.route('/tsstatus/jsonp', methods=['GET'])
+@support_jsonp
+def tsstatus_script(callback='callback'):
     if telnet('ts.gilgi.org'):
         return jsonify({'status': 'online'})
     return jsonify({'status': 'offline'})
