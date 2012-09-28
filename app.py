@@ -1,6 +1,7 @@
 import os
 import telnetlib
 from flask import Flask, send_from_directory
+from jsonp_decorator import support_jsonp
 
 app = Flask(__name__)
 
@@ -19,10 +20,11 @@ def hello():
     return 'Hello World!'
 
 @app.route('/tsstatus/script', methods=['GET'])
+@support_jsonp
 def tsstatus_script():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
-    return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
+        return jsonify({'status': 'online'})
+    return jsonify({'status': 'offline'})
 
 @app.route('/tsstatus/title', methods=['GET'])
 def tsstatus_html():
