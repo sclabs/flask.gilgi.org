@@ -2,6 +2,7 @@ import os
 import telnetlib
 from flask import Flask, send_from_directory, jsonify
 from jsonp_decorator import support_jsonp
+from pyVent import VentriloServer
 
 app = Flask(__name__)
 
@@ -15,9 +16,26 @@ def telnet(address, port=10011, timeout=2):
     except:
         return False
 
+def check_vent(address, port=3784):
+    try:
+        vent = VentriloServer((address, port))
+        vent.updateStatus
+        return vent.getStatus()
+    except:
+        return None
+
 @app.route('/')
 def hello():
     return 'Hello World!'
+
+@app.route('/ventstatus/json')
+@support_jsonp
+def ventstatus_json():
+    response = check_vent("vent.gilgi.org")
+    if response:
+        response['status'] = 'online'
+        return jsonify(response)
+    return jsonify({'status': 'offline'})
 
 @app.route('/tsstatus/script', methods=['GET'])
 def tsstatus_script():
@@ -29,8 +47,8 @@ def tsstatus_script():
 @support_jsonp
 def tsstatus_json():
     if telnet('ts.gilgi.org'):
-        return jsonify({'status': 'online'}, callback='callback')
-    return jsonify({'status': 'offline'}, callback='callback')
+        return jsonify({'status': 'online'})
+    return jsonify({'status': 'offline'})
 
 @app.route('/tsstatus/title', methods=['GET'])
 def tsstatus_html():
