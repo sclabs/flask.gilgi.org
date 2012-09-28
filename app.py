@@ -19,7 +19,7 @@ def telnet(address, port=10011, timeout=2):
 def check_vent(address, port=3784):
     try:
         vent = VentriloServer((address, port))
-        vent.updateStatus
+        vent.updateStatus()
         return vent.getStatus()
     except:
         return None
