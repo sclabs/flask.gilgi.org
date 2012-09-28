@@ -37,6 +37,12 @@ def ventstatus_json():
         return jsonify(response)
     return jsonify({'status': 'offline'})
 
+@app.route('/ventstatus/title', methods=['GET'])
+def ventstatus_html():
+    if check_vent("vent.gilgi.org"):
+        return send_from_directory("static", "ventonline.html", mimetype="text/html")
+    return send_from_directory("static", "ventoffline.html", mimetype="text/html")
+
 @app.route('/tsstatus/script', methods=['GET'])
 def tsstatus_script():
     if telnet('ts.gilgi.org'):
