@@ -27,7 +27,7 @@ def tsstatus_script():
 
 @app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
-def tsstatus_script():
+def tsstatus_json():
     if telnet('ts.gilgi.org'):
         return jsonify({'status': 'online'}, callback='callback')
     return jsonify({'status': 'offline'}, callback='callback')
