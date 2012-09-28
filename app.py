@@ -1,6 +1,6 @@
 import os
 import telnetlib
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from jsonp_decorator import support_jsonp
 
 app = Flask(__name__)
