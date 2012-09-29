@@ -3,6 +3,7 @@ import telnetlib
 from flask import Flask, send_from_directory, jsonify
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
+from SourceQuery import SourceQuery
 
 app = Flask(__name__)
 
@@ -24,9 +25,31 @@ def check_vent(address, port=3784):
     except:
         return None
 
+def check_css(address, port=27015):
+    try:
+        css = VentriloServer(address, port)
+        return css.info()
+    except:
+        return None
+
 @app.route('/')
 def hello():
     return 'Hello World!'
+
+@app.route('/cssstatus/json')
+@support_jsonp
+def cssstatus_json():
+    response = check_css("css.gilgi.org")
+    if response:
+        response['status'] = 'online'
+        return jsonify(response)
+    return jsonify({'status': 'offline'})
+
+@app.route('/cssstatus/title', methods=['GET'])
+def cssstatus_title():
+    if check_css("css.gilgi.org"):
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/ventstatus/json')
 @support_jsonp
@@ -38,16 +61,10 @@ def ventstatus_json():
     return jsonify({'status': 'offline'})
 
 @app.route('/ventstatus/title', methods=['GET'])
-def ventstatus_html():
+def ventstatus_title():
     if check_vent("vent.gilgi.org"):
-        return send_from_directory("static", "ventonline.html", mimetype="text/html")
-    return send_from_directory("static", "ventoffline.html", mimetype="text/html")
-
-@app.route('/tsstatus/script', methods=['GET'])
-def tsstatus_script():
-    if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "tsonline.js", mimetype="text/javascript")
-    return send_from_directory("static", "tsoffline.js", mimetype="text/javascript")
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
@@ -57,10 +74,10 @@ def tsstatus_json():
     return jsonify({'status': 'offline'})
 
 @app.route('/tsstatus/title', methods=['GET'])
-def tsstatus_html():
+def tsstatus_title():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "tsonline.html", mimetype="text/html")
-    return send_from_directory("static", "tsoffline.html", mimetype="text/html")
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
