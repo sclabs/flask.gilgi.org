@@ -27,7 +27,7 @@ def check_vent(address, port=3784):
 
 def check_css(address, port=27015):
     try:
-        css = VentriloServer(address, port)
+        css = SourceQuery(address, port)
         return css.info()
     except:
         return None
