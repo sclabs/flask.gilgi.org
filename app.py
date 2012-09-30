@@ -39,6 +39,7 @@ def index():
     return render_template("index.html", data=pages.index)
 
 @app.route('/steam')
+@support_jsonp
 def steam():
     return jsonify(steamservices.getdata());
 
