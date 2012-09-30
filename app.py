@@ -48,11 +48,11 @@ tsstatus = {
     }
 
 ventstatus = {
-    "header": "ventstatus"
+    "header": "ventstatus",
     "prompts": [
         "you have requested the status of the scoot's canoe ventrilo server",
         "how would you like your response to be formatted?"
-        ]
+        ],
     "options": [
         {"link": "/ventstatus/json", "text": "json"},
         {"link": "/ventstatus/html", "text": "html"},
