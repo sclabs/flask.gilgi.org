@@ -1,0 +1,16 @@
+body {
+    background-color:black;
+}
+
+a, h1, p {
+    font-family:monospace;
+    color:white;
+}
+
+a {
+    text-decoration:none;
+}
+
+a:hover {
+    color:blue;
+}

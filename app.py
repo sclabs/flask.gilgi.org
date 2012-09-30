@@ -33,8 +33,12 @@ def check_css(address, port=27015):
         return None
 
 @app.route('/')
-def hello():
-    return 'Hello World!'
+def index():
+    return send_from_directory("pages", "index.html", mimetype="text/html")
+
+@app.route('/cssstatus')
+def cssstatus():
+    return send_from_directory("pages", "cssstatus.html", mimetype="text/html")
 
 @app.route('/cssstatus/json')
 @support_jsonp
@@ -45,11 +49,15 @@ def cssstatus_json():
         return jsonify(response)
     return jsonify({'status': 'offline'})
 
-@app.route('/cssstatus/title', methods=['GET'])
-def cssstatus_title():
+@app.route('/cssstatus/html', methods=['GET'])
+def cssstatus_html():
     if check_css("css.gilgi.org"):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return send_from_directory("pages", "online.html", mimetype="text/html")
+    return send_from_directory("pages", "offline.html", mimetype="text/html")
+
+@app.route('/ventstatus')
+def ventstatus():
+    return send_from_directory("pages", "ventstatus.html", mimetype="text/html")
 
 @app.route('/ventstatus/json')
 @support_jsonp
@@ -60,11 +68,15 @@ def ventstatus_json():
         return jsonify(response)
     return jsonify({'status': 'offline'})
 
-@app.route('/ventstatus/title', methods=['GET'])
-def ventstatus_title():
+@app.route('/ventstatus/html', methods=['GET'])
+def ventstatus_html():
     if check_vent("vent.gilgi.org"):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return send_from_directory("pages", "online.html", mimetype="text/html")
+    return send_from_directory("pages", "offline.html", mimetype="text/html")
+
+@app.route('/tsstatus')
+def tsstatus():
+    return send_from_directory("pages", "tsstatus.html", mimetype="text/html")
 
 @app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
@@ -73,11 +85,11 @@ def tsstatus_json():
         return jsonify({'status': 'online'})
     return jsonify({'status': 'offline'})
 
-@app.route('/tsstatus/title', methods=['GET'])
-def tsstatus_title():
+@app.route('/tsstatus/html', methods=['GET'])
+def tsstatus_html():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return send_from_directory("pages", "online.html", mimetype="text/html")
+    return send_from_directory("pages", "offline.html", mimetype="text/html")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
