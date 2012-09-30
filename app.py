@@ -5,6 +5,7 @@ from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
 import pages
+import steamservices
 
 app = Flask(__name__)
 
@@ -36,6 +37,10 @@ def check_css(address, port=27015):
 @app.route('/')
 def index():
     return render_template("index.html", data=pages.index)
+
+@app.route('/steam')
+def steam():
+    return jsonify(steamservices.getdata());
 
 @app.route('/cssstatus')
 def cssstatus():
