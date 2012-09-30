@@ -4,61 +4,9 @@ from flask import Flask, send_from_directory, jsonify, render_template
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
+import pages
 
 app = Flask(__name__)
-
-index = {
-    "header": "welcome to flask.gilgi.org",
-    "prompts": [
-        "you have reached the gilgi.org network utility server",
-        "what can we help you with?"
-        ],
-    "options": [
-        {"link": "/tsstatus", "text": "check status of scoot's canoe teamspeak server"},
-        {"link": "/ventstatus", "text": "check status of scoot's canoe ventrilo server"},
-        {"link": "/cssstatus", "text": "check status of scoot's canoe cs:s server"},
-        {"link": "http://icanhas.cheezburger.com", "text": "show me funny cat pictures"},
-        ]
-    }
-
-cssstatus = {
-    "header": "cssstatus",
-    "prompts": [
-        "you have requested the status of the scoot's canoe cs:s server",
-        "how would you like your response to be formatted?"
-        ],
-    "options": [
-        {"link": "/cssstatus/json", "text": "json"},
-        {"link": "/cssstatus/html", "text": "html"},
-        {"link": "/", "text": "i just want to go home"},
-        ]
-    }
-
-tsstatus = {
-    "header": "tsstatus",
-    "prompts": [
-        "you have requested the status of the scoot's canoe teamspeak server",
-        "how would you like your response to be formatted?"
-        ],
-    "options": [
-        {"link": "/tsstatus/json", "text": "json"},
-        {"link": "/tsstatus/html", "text": "html"},
-        {"link": "/", "text": "i just want to go home"},
-        ]
-    }
-
-ventstatus = {
-    "header": "ventstatus",
-    "prompts": [
-        "you have requested the status of the scoot's canoe ventrilo server",
-        "how would you like your response to be formatted?"
-        ],
-    "options": [
-        {"link": "/ventstatus/json", "text": "json"},
-        {"link": "/ventstatus/html", "text": "html"},
-        {"link": "/", "text": "i just want to go home"},
-        ]
-    }
 
 def telnet(address, port=10011, timeout=2):
     try:
@@ -87,11 +35,11 @@ def check_css(address, port=27015):
 
 @app.route('/')
 def index():
-    return render_template("index.html", data=index)
+    return render_template("index.html", data=pages.index)
 
 @app.route('/cssstatus')
 def cssstatus():
-    return render_template("index.html", data=cssstatus)
+    return render_template("index.html", data=pages.cssstatus)
 
 @app.route('/cssstatus/json')
 @support_jsonp
@@ -110,7 +58,7 @@ def cssstatus_html():
 
 @app.route('/ventstatus')
 def ventstatus():
-    return render_template("index.html", data=ventstatus)
+    return render_template("index.html", data=pages.ventstatus)
 
 @app.route('/ventstatus/json')
 @support_jsonp
@@ -129,7 +77,7 @@ def ventstatus_html():
 
 @app.route('/tsstatus')
 def tsstatus():
-    return render_template("index.html", data=tsstatus)
+    return render_template("index.html", data=pages.tsstatus)
 
 @app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
