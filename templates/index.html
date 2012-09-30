@@ -1,0 +1,25 @@
+<html>
+
+<head>
+<title>flask.gilgi.org</title>
+<link rel="stylesheet" type="text/css" href="static/style.css"/>
+</head>
+
+<body>
+
+<h1>{{ data.header }}</h1>
+
+{% for prompt in data.prompts %}
+<p>{{ prompt }}</p>
+{% endfor %}
+
+{% for option in data.options %}
+<p><a href="{{ option.link }}">> {{ option.text }}</a></p>
+{% endfor %}
+
+<hr/>
+<p>site theme &copy; 2012 gilgi</p>
+<p>powered by <a href="http://sclabs.gilgi.org/decisite">decisite</a></p>
+
+</body>
+</html>

@@ -1,11 +1,64 @@
 import os
 import telnetlib
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, send_from_directory, jsonify, render_template
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
 
 app = Flask(__name__)
+
+index = {
+    "header": "welcome to flask.gilgi.org"
+    "prompts": [
+        "you have reached the gilgi.org network utility server",
+        "what can we help you with?"
+        ]
+    "options": [
+        {"link": "/tsstatus", "text": "check status of scoot's canoe teamspeak server"},
+        {"link": "/ventstatus", "text": "check status of scoot's canoe ventrilo server"},
+        {"link": "/cssstatus", "text": "check status of scoot's canoe cs:s server"},
+        {"link": "http://icanhas.cheezburger.com", "text": "show me funny cat pictures"},
+        ]
+    }
+
+cssstatus = {
+    "header": "cssstatus"
+    "prompts": [
+        "you have requested the status of the scoot's canoe cs:s server",
+        "how would you like your response to be formatted?"
+        ]
+    "options": [
+        {"link": "/cssstatus/json", "text": "json"},
+        {"link": "/cssstatus/html", "text": "html"},
+        {"link": "/", "text": "i just want to go home"},
+        ]
+    }
+
+tsstatus = {
+    "header": "tsstatus"
+    "prompts": [
+        "you have requested the status of the scoot's canoe teamspeak server",
+        "how would you like your response to be formatted?"
+        ]
+    "options": [
+        {"link": "/tsstatus/json", "text": "json"},
+        {"link": "/tsstatus/html", "text": "html"},
+        {"link": "/", "text": "i just want to go home"},
+        ]
+    }
+
+ventstatus = {
+    "header": "ventstatus"
+    "prompts": [
+        "you have requested the status of the scoot's canoe ventrilo server",
+        "how would you like your response to be formatted?"
+        ]
+    "options": [
+        {"link": "/ventstatus/json", "text": "json"},
+        {"link": "/ventstatus/html", "text": "html"},
+        {"link": "/", "text": "i just want to go home"},
+        ]
+    }
 
 def telnet(address, port=10011, timeout=2):
     try:
@@ -34,11 +87,11 @@ def check_css(address, port=27015):
 
 @app.route('/')
 def index():
-    return send_from_directory("pages", "index.html", mimetype="text/html")
+    return render_template("index.html", data=index)
 
 @app.route('/cssstatus')
 def cssstatus():
-    return send_from_directory("pages", "cssstatus.html", mimetype="text/html")
+    return render_template("index.html", data=cssstatus)
 
 @app.route('/cssstatus/json')
 @support_jsonp
@@ -52,12 +105,12 @@ def cssstatus_json():
 @app.route('/cssstatus/html', methods=['GET'])
 def cssstatus_html():
     if check_css("css.gilgi.org"):
-        return send_from_directory("pages", "online.html", mimetype="text/html")
-    return send_from_directory("pages", "offline.html", mimetype="text/html")
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/ventstatus')
 def ventstatus():
-    return send_from_directory("pages", "ventstatus.html", mimetype="text/html")
+    return render_template("index.html", data=ventstatus)
 
 @app.route('/ventstatus/json')
 @support_jsonp
@@ -71,12 +124,12 @@ def ventstatus_json():
 @app.route('/ventstatus/html', methods=['GET'])
 def ventstatus_html():
     if check_vent("vent.gilgi.org"):
-        return send_from_directory("pages", "online.html", mimetype="text/html")
-    return send_from_directory("pages", "offline.html", mimetype="text/html")
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/tsstatus')
 def tsstatus():
-    return send_from_directory("pages", "tsstatus.html", mimetype="text/html")
+    return render_template("index.html", data=tsstatus)
 
 @app.route('/tsstatus/json', methods=['GET'])
 @support_jsonp
@@ -88,8 +141,8 @@ def tsstatus_json():
 @app.route('/tsstatus/html', methods=['GET'])
 def tsstatus_html():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("pages", "online.html", mimetype="text/html")
-    return send_from_directory("pages", "offline.html", mimetype="text/html")
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
