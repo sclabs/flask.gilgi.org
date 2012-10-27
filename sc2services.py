@@ -28,7 +28,7 @@ def getdata():
         player['url'] = sc2ranks.character_url(character['region'],
                                             character['name'],
                                             character['id'])
-        player['levels'] = [0, 0, 0, 0]
+        player['levels'] = [1, 1, 1, 1]
 
         # fill in hard fields with real values
         for team in info.teams:
