@@ -31,7 +31,7 @@ def getdata():
 
         # fill in hard fields with real values
         for team in info.teams:
-            if not team.is_random:
+            if team.bracket == 1 or team.is_random:
                 player['leagues'][team.bracket - 1] = team.league
                 player['ranks'][team.bracket - 1] = team.division_rank
 
