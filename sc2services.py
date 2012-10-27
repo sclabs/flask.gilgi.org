@@ -36,13 +36,13 @@ def getdata():
                 player['leagues'][team.bracket - 1] = team.league
                 player['ranks'][team.bracket - 1] = team.division_rank
                 if team.division_rank <= 8:
-                    player['levels'][team.bracket - 1] = 4;
-                else if team.division_rank <= 25:
-                    player['levels'][team.bracket - 1] = 3;
-                else if team.division_rank <= 50:
-                    player['levels'][team.bracket - 1] = 2;
+                    player['levels'][team.bracket - 1] = 4
+                elif team.division_rank <= 25:
+                    player['levels'][team.bracket - 1] = 3
+                elif team.division_rank <= 50:
+                    player['levels'][team.bracket - 1] = 2
                 else:
-                    player['levels'][team.bracket - 1] = 1;
+                    player['levels'][team.bracket - 1] = 1
 
         # append this player to the list
         data['players'].append(player)
