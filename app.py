@@ -6,6 +6,7 @@ from pyVent import VentriloServer
 from SourceQuery import SourceQuery
 import pages
 import steamservices
+import sc2services
 
 app = Flask(__name__)
 
@@ -37,6 +38,11 @@ def check_css(address, port=27015):
 @app.route('/')
 def index():
     return render_template("index.html", data=pages.index)
+
+@app.route('/sc2')
+@support_jsonp
+def sc2():
+    return jsonify(sc2services.getdata());
 
 @app.route('/steam')
 @support_jsonp

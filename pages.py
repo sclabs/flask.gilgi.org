@@ -9,6 +9,7 @@ index = {
         {"link": "/ventstatus", "text": "check status of scoot's canoe ventrilo server"},
         {"link": "/cssstatus", "text": "check status of scoot's canoe cs:s server"},
         {"link": "/steam", "text": "get information about the scoot's canoe steam group"},
+        {"link": "/sc2", "text": "get information about the scoot's canoe sc2 team"},
         {"link": "http://icanhas.cheezburger.com", "text": "show me funny cat pictures"},
         ]
     }
