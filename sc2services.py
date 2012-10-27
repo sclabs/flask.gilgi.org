@@ -25,7 +25,7 @@ def getdata():
         # fill in hard fields with default values
         player['leagues'] = ["none", "none", "none", "none"]
         player['ranks'] = [0, 0, 0, 0]
-        player['url'] = ranks.character_url(character['region'],
+        player['url'] = sc2ranks.character_url(character['region'],
                                             character['name'],
                                             character['id'])
 
