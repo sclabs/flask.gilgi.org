@@ -42,4 +42,4 @@ def getdata():
     return data
         
 def makeportrait(portrait, size=75):
-    return "background: url('/images/portraits-%d-%d.jpg') -%dpx -%dpx no-repeat; width: 75px; height: 75px;" % (portrait.icon_id, size, portrait.column * size, portrait.row * size)
+    return "background: url('/assets/img/portraits/portraits-%d-%d.jpg') -%dpx -%dpx no-repeat; width: 75px; height: 75px;" % (portrait.icon_id, size, portrait.column * size, portrait.row * size)
