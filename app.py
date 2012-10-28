@@ -7,6 +7,7 @@ from SourceQuery import SourceQuery
 import pages
 import steamservices
 import sc2services
+from minecraft_query import MinecraftQuery
 
 app = Flask(__name__)
 
@@ -32,6 +33,13 @@ def check_css(address, port=27015):
     try:
         css = SourceQuery(address, port)
         return css.info()
+    except:
+        return None
+
+def check_minecraft(address, port=25565, timeout=3):
+    try:
+        query = MinecraftQuery(address, port, timeout=timeout)
+        return query.get_status()
     except:
         return None
 
@@ -103,6 +111,26 @@ def tsstatus_html():
     if telnet('ts.gilgi.org'):
         return send_from_directory("static", "online.html", mimetype="text/html")
     return send_from_directory("static", "offline.html", mimetype="text/html")
+
+@app.route('/minecraftstatus')
+def minecraftstatus():
+    return render_template("index.html", data=pages.minecraftstatus)
+
+@app.route('/minecraftstatus/json', methods=['GET'])
+@support_jsonp
+def minecraftstatus_json():
+    response = check_minecraft("minecraft.gilgi.org")
+    if response:
+        response['status'] = 'online'
+        return jsonify(response)
+    return jsonify({'status': 'offline'})
+
+@app.route('/minecraftstatus/html', methods=['GET'])
+def minecraftstatus_html():
+    if check_minecraft("minecraft.gilgi.org"):
+        return send_from_directory("static", "online.html", mimetype="text/html")
+    return send_from_directory("static", "offline.html", mimetype="text/html")
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
