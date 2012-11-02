@@ -91,6 +91,7 @@ def getdata():
             for player in data['players']:
                 if member['name'] == player['name']:
                     member['portrait'] = player['portrait']
+                    member['url'] = player['url']
                     break
 
         # append this team to the list
