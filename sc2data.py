@@ -18,3 +18,8 @@ characters = ({'region': "us",
               {'region': "us",
                'name': "Gilgi",
                'id': "1091232"},)
+
+twos = ({'region': "us",
+             'name': "Gilgi",
+             'id': "1091232"
+             'partner': "PQman"},)

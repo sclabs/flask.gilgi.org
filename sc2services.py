@@ -2,12 +2,14 @@ import sc2ranks
 import sc2data
 
 def getdata():
-    # these will store our data
+    # theis will store our data
     data = {}
-    data['players'] = []
 
     # create an object to handle our api calls
     ranks = sc2ranks.Sc2Ranks(sc2data.apikey)
+
+    # individual league ranks go into the players array
+    data['players'] = []
     
     for character in sc2data.characters:
         # this will store data about the player
@@ -46,6 +48,52 @@ def getdata():
 
         # append this player to the list
         data['players'].append(player)
+
+    # 2v2 teams go into twos
+    data['twos'] = []
+
+    for two in sc2data.twos:
+        # this will store information about the team
+        teaminfo = {}
+
+        # get some data
+        info = ranks.fetch_character_teams(two['region'],
+                                           two['name'],
+                                           two['id'])
+
+        # find the particular 2v2 team we want
+        particularteam = None
+        for team in info.teams:
+            if team.members[0].name == two['partner']:
+                particularteam = team
+                break
+
+        # fill in general data
+        teaminfo['league'] = particularteam.league
+        teaminfo['rank'] = particularteam.division_rank
+        if particularteam.division_rank <= 8:
+            teaminfo['level'] = 4
+        elif particularteam.division_rank <= 25:
+            teaminfo['level'] = 3
+        elif particularteam.division_rank <= 50:
+            teaminfo['level'] = 2
+        else:
+            teaminfo['level'] = 1
+
+        # this list stores info about the team members
+        teaminfo['members'] = [
+            {'name': two['name']},
+            {'name': two['partner']}]
+
+        # add portraits
+        for member in teaminfo['members']:
+            for player in data['players']:
+                if member['name'] == player['name']:
+                    member['portrait'] = player['portrait']
+                    break
+
+        # append this team to the list
+        data['twos'].append(teaminfo)
 
     # return the data
     return data
