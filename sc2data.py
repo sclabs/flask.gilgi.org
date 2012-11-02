@@ -21,5 +21,5 @@ characters = ({'region': "us",
 
 twos = ({'region': "us",
              'name': "Gilgi",
-             'id': "1091232"
+             'id': "1091232",
              'partner': "PQman"},)

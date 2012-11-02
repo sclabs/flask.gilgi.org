@@ -2,7 +2,7 @@ import sc2ranks
 import sc2data
 
 def getdata():
-    # theis will store our data
+    # this will store our data
     data = {}
 
     # create an object to handle our api calls
@@ -59,7 +59,8 @@ def getdata():
         # get some data
         info = ranks.fetch_character_teams(two['region'],
                                            two['name'],
-                                           two['id'])
+                                           two['id'],
+                                           2)
 
         # find the particular 2v2 team we want
         particularteam = None
