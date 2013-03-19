@@ -9,6 +9,7 @@ import steamservices
 import sc2services
 from minecraft_query import MinecraftQuery
 import dota2services
+from app import app
 
 def telnet(address, port=10011, timeout=2):
     try:
