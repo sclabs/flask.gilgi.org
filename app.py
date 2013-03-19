@@ -1,6 +1,7 @@
 import os
 import telnetlib
 from flask import Flask, send_from_directory, jsonify, render_template
+from flask.ext.sqlalchemy import SQLAlchemy
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
@@ -11,6 +12,8 @@ from minecraft_query import MinecraftQuery
 import dota2services
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 def telnet(address, port=10011, timeout=2):
     try:
