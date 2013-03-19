@@ -1,5 +1,6 @@
 from dotamatch import teams
 import dota2data
+from app import db
 
 def getdata():
     # this will store our data
@@ -19,11 +20,39 @@ def getdata():
         # this dict will store the team's information
         teaminfo = {}
 
-        # put the info we want in to the dict
+        # check to see if this team is in the database yet
+        db_team = db.session.query(Dota2Team).filter(Dota2Team.team_id==team.team_id)
+        
+        if db_team:
+            # team_id should be unique so grab the first element of the list
+            db_team = db_team[0]
+
+            # if webapi says inactive fill in teaminfo from database
+            if team.rating == 'inactive':
+                teaminfo['rating'] = db_team.rating
+            
+            else:
+                # update the team rating in the database if necessary
+                if team.rating != db_team.rating:
+                    db_team.rating = team.rating
+                    db.session.commit()
+                
+                # either way the webapi rating goes into teaminfo
+                teaminfo['rating'] = team.rating
+                
+        else:
+            # make a new row in the database
+            db_team = Dota2Team(team.team_id)
+            db.session.add(db_team)
+            db.session.commit()
+
+            # webapi rating goes into teaminfo
+            teaminfo['rating'] = team.rating
+
+        # put the other info we want in to the dict
         teaminfo['name'] = team.name
         teaminfo['tag'] = team.tag
         teaminfo['games_played'] = team.games_played_with_current_roster
-        teaminfo['rating'] = team.rating
         teaminfo['url'] = 'http://dotabuff.com/teams/' + str(team.team_id)
 
         # add this team to the list
@@ -31,3 +60,16 @@ def getdata():
 
     # return the data
     return data
+
+# database model to cache rating
+class Dota2Team(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer)
+    rating = db.Column(db.String(10))
+
+    def __init__(self, team_id, rating='inactive'):
+        self.team_id = team_id
+        self.rating = rating
+
+    def __repr__(self):
+        return '<team_id ' + str(self.team_id) + '>'
