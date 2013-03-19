@@ -11,6 +11,7 @@ index = {
         {"link": "/minecraftstatus", "text": "check the status of the scoot's canoe minecraft server"},
         {"link": "/steam", "text": "get information about the scoot's canoe steam group"},
         {"link": "/sc2", "text": "get information about the scoot's canoe sc2 team"},
+        {"link": "/dota2", "text": "get information about scoot's canoe dota2 teams"},
         {"link": "http://icanhas.cheezburger.com", "text": "show me funny cat pictures"},
         ]
     }

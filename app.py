@@ -8,6 +8,7 @@ import pages
 import steamservices
 import sc2services
 from minecraft_query import MinecraftQuery
+import dota2services
 
 app = Flask(__name__)
 
@@ -51,6 +52,11 @@ def index():
 @support_jsonp
 def sc2():
     return jsonify(sc2services.getdata());
+
+@app.route('/dota2')
+@support_jsonp
+def dota2():
+    return jsonify(dota2services.getdata());
 
 @app.route('/steam')
 @support_jsonp
