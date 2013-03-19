@@ -1,7 +1,6 @@
 import os
 import telnetlib
-from flask import Flask, send_from_directory, jsonify, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask import send_from_directory, jsonify, render_template
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
@@ -10,10 +9,6 @@ import steamservices
 import sc2services
 from minecraft_query import MinecraftQuery
 import dota2services
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
 
 def telnet(address, port=10011, timeout=2):
     try:
@@ -139,8 +134,3 @@ def minecraftstatus_html():
     if check_minecraft("minecraft.gilgi.org"):
         return send_from_directory("static", "online.html", mimetype="text/html")
     return send_from_directory("static", "offline.html", mimetype="text/html")
-
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
