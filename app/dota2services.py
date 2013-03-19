@@ -39,7 +39,7 @@ def getdata():
                     db.session.commit()
                 
                 # either way the webapi rating goes into teaminfo
-                teaminfo['rating'] = team.rating
+                teaminfo['rating'] = str(team.rating)
                 
         else:
             # make a new row in the database
@@ -48,9 +48,10 @@ def getdata():
             db.session.commit()
 
             # webapi rating goes into teaminfo
-            teaminfo['rating'] = team.rating
+            teaminfo['rating'] = str(team.rating)
 
         # put the other info we want in to the dict
+        teaminfo['team_id'] = team.team_id
         teaminfo['name'] = team.name
         teaminfo['tag'] = team.tag
         teaminfo['games_played'] = team.games_played_with_current_roster
