@@ -16,7 +16,7 @@ def getdata():
     # loop through the sc teams
     for teamid in dota2data.teamids:
         # get the team info
-        team = teamobject.teams(start_at_team_id=teamid,teams_requested=1).all()[0]
+        team = teamobject.teams(start_at_team_id=teamid,teams_requested=1)[0]
 
         # this dict will store the team's information
         teaminfo = {}
