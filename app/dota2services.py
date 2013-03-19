@@ -16,13 +16,13 @@ def getdata():
     # loop through the sc teams
     for teamid in dota2data.teamids:
         # get the team info
-        team = teamobject.teams(start_at_team_id=teamid,teams_requested=1)[0]
+        team = teamobject.teams(start_at_team_id=teamid,teams_requested=1).all()[0]
 
         # this dict will store the team's information
         teaminfo = {}
 
         # check to see if this team is in the database yet
-        db_team = db.session.query(Dota2Team).filter(Dota2Team.team_id==team.team_id)
+        db_team = db.session.query(Dota2Team).filter(Dota2Team.team_id==team.team_id).all()
         
         if db_team:
             # team_id should be unique so grab the first element of the list
