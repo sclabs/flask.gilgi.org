@@ -1,6 +1,7 @@
 import os
 import telnetlib
-from flask import send_from_directory, jsonify, render_template
+#from flask import send_from_directory
+from flask import jsonify, render_template, make_response
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
@@ -10,6 +11,16 @@ import sc2services
 from minecraft_query import MinecraftQuery
 import dota2services
 from app import app
+
+def online():
+    response = make_response(open('app/static/online.html').read())
+    response.headers["Content-type"] = "text/html"
+    return response
+
+def offline():
+    response = make_response(open('app/static/offline.html').read())
+    response.headers["Content-type"] = "text/html"
+    return response
 
 def telnet(address, port=10011, timeout=2):
     try:
@@ -78,8 +89,10 @@ def cssstatus_json():
 @app.route('/cssstatus/html', methods=['GET'])
 def cssstatus_html():
     if check_css("css.gilgi.org"):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return online()
+        #return send_from_directory("static", "online.html", mimetype="text/html")
+    return offline()
+    #return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/ventstatus')
 def ventstatus():
@@ -97,8 +110,10 @@ def ventstatus_json():
 @app.route('/ventstatus/html', methods=['GET'])
 def ventstatus_html():
     if check_vent("vent.gilgi.org"):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return online()
+        #return send_from_directory("static", "online.html", mimetype="text/html")
+    return offline()
+    #return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/tsstatus')
 def tsstatus():
@@ -114,8 +129,10 @@ def tsstatus_json():
 @app.route('/tsstatus/html', methods=['GET'])
 def tsstatus_html():
     if telnet('ts.gilgi.org'):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return online()
+        #return send_from_directory("static", "online.html", mimetype="text/html")
+    return offline()
+    #return send_from_directory("static", "offline.html", mimetype="text/html")
 
 @app.route('/minecraftstatus')
 def minecraftstatus():
@@ -133,5 +150,7 @@ def minecraftstatus_json():
 @app.route('/minecraftstatus/html', methods=['GET'])
 def minecraftstatus_html():
     if check_minecraft("minecraft.gilgi.org"):
-        return send_from_directory("static", "online.html", mimetype="text/html")
-    return send_from_directory("static", "offline.html", mimetype="text/html")
+        return online()
+        #return send_from_directory("static", "online.html", mimetype="text/html")
+    return offline()
+    #return send_from_directory("static", "offline.html", mimetype="text/html")
