@@ -20,6 +20,10 @@ characters = ({'region': "us",
                'id': "1091232"},)
 
 twos = ({'region': "us",
-             'name': "Gilgi",
-             'id': "1091232",
-             'partner': "PQman"},)
+         'name': "Vindicator",
+         'id': "301045",
+         'partner': "Gilgi"},
+        {'region': "us",
+         'name': "Gilgi",
+         'id': "1091232",
+         'partner': "PQman"},)
