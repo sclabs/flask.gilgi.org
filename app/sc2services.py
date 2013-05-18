@@ -34,7 +34,21 @@ def getdata():
 
         # fill in hard fields with real values
         for team in info.teams:
-            if team.bracket == 1 or team.is_random:
+            if (team.bracket == 1 or team.is_random) and team.expansion == 0:
+                player['leagues'][team.bracket - 1] = team.league
+                player['ranks'][team.bracket - 1] = team.division_rank
+                if team.division_rank <= 8:
+                    player['levels'][team.bracket - 1] = 4
+                elif team.division_rank <= 25:
+                    player['levels'][team.bracket - 1] = 3
+                elif team.division_rank <= 50:
+                    player['levels'][team.bracket - 1] = 2
+                else:
+                    player['levels'][team.bracket - 1] = 1
+        
+        # do it again for hots, overwriting wol data
+        for team in info.teams:
+            if (team.bracket == 1 or team.is_random) and team.expansion == 1:
                 player['leagues'][team.bracket - 1] = team.league
                 player['ranks'][team.bracket - 1] = team.division_rank
                 if team.division_rank <= 8:
@@ -68,34 +82,36 @@ def getdata():
             if team.members[0].name == two['partner']:
                 particularteam = team
                 break
+        
+        # if we found such a team
+        if particularteam:
+            # fill in general data
+            teaminfo['league'] = particularteam.league
+            teaminfo['rank'] = particularteam.division_rank
+            if particularteam.division_rank <= 8:
+                teaminfo['level'] = 4
+            elif particularteam.division_rank <= 25:
+                teaminfo['level'] = 3
+            elif particularteam.division_rank <= 50:
+                teaminfo['level'] = 2
+            else:
+                teaminfo['level'] = 1
 
-        # fill in general data
-        teaminfo['league'] = particularteam.league
-        teaminfo['rank'] = particularteam.division_rank
-        if particularteam.division_rank <= 8:
-            teaminfo['level'] = 4
-        elif particularteam.division_rank <= 25:
-            teaminfo['level'] = 3
-        elif particularteam.division_rank <= 50:
-            teaminfo['level'] = 2
-        else:
-            teaminfo['level'] = 1
+            # this list stores info about the team members
+            teaminfo['members'] = [
+                {'name': two['name']},
+                {'name': two['partner']}]
 
-        # this list stores info about the team members
-        teaminfo['members'] = [
-            {'name': two['name']},
-            {'name': two['partner']}]
+            # add portraits
+            for member in teaminfo['members']:
+                for player in data['players']:
+                    if member['name'] == player['name']:
+                        member['portrait'] = player['portrait']
+                        member['url'] = player['url']
+                        break
 
-        # add portraits
-        for member in teaminfo['members']:
-            for player in data['players']:
-                if member['name'] == player['name']:
-                    member['portrait'] = player['portrait']
-                    member['url'] = player['url']
-                    break
-
-        # append this team to the list
-        data['twos'].append(teaminfo)
+            # append this team to the list
+            data['twos'].append(teaminfo)
 
     # return the data
     return data
