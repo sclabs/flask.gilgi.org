@@ -103,7 +103,7 @@ def get_first_char_ctx(keyID, vCode):
     
 def get_balance(keyID, vCode):
     me = get_first_char_ctx(keyID, vCode)
-    return '%.2f' % me.AccountBalance().accounts[0].balance
+    return "{:,.2f}".format(me.AccountBalance().accounts[0].balance)
 
     
 def get_skill_in_training(keyID, vCode):
@@ -135,7 +135,8 @@ def get_orders(keyID, vCode):
     item_ids = [str(order.typeID) for order in mo_result.orders]
     tn_result = api.eve.TypeName(ids=','.join(item_ids))
     item_names = [type.typeName for type in tn_result.types]
-    return ['%s %s/%s %s @ %.2f ISK, %s' % (bid_map[mo_result.orders[i].bid], mo_result.orders[i].volRemaining,
-                                            mo_result.orders[i].volEntered, item_names[i], mo_result.orders[i].price,
+    return ['%s %s/%s %s @ %s ISK, %s' % (bid_map[mo_result.orders[i].bid], mo_result.orders[i].volRemaining,
+                                            mo_result.orders[i].volEntered, item_names[i],
+                                            "{:,.2f}".format(mo_result.orders[i].price),
                                             order_state_map[mo_result.orders[i].orderState])
             for i in range(len(item_ids))]
