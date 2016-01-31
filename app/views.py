@@ -176,3 +176,10 @@ def eve_skill_queue():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
     return jsonify({'skillqueue': eveservices.get_skill_queue(keyID, vCode)})
+
+@app.route('/eve/orders', methods=['GET'])
+@support_jsonp
+def eve_orders():
+    keyID = request.args.get('keyID')
+    vCode = request.args.get('vCode')
+    return jsonify({'orders': eveservices.get_orders(keyID, vCode)})

@@ -81,6 +81,20 @@ class MyCacheHandler(object):
 api = eveapi.EVEAPIConnection(cacheHandler=MyCacheHandler(debug=True))
 
 
+order_state_map = {
+    0: 'Open or Active',
+    1: 'Closed',
+    2: 'Expired or Fulfilled',
+    3: 'Cancelled',
+    4: 'Pending',
+    5: 'Character Deleted'
+}
+bid_map = {
+    0: 'selling',
+    1: 'buying'
+}
+
+
 def get_first_char_ctx(keyID, vCode):
     auth = api.auth(keyID=keyID, vCode=vCode)
     result = auth.account.Characters()
@@ -113,3 +127,15 @@ def get_skill_queue(keyID, vCode):
     return ['%s to level %s finishes %s' % (skill_names[i], sq_result.skillqueue[i].level,
                                             time.asctime(time.gmtime(sq_result.skillqueue[i].endTime)))
             for i in range(len(skill_ids))]
+
+            
+def get_orders(keyID, vCode):
+    me = get_first_char_ctx(keyID, vCode)
+    mo_result = me.MarketOrders()
+    item_ids = [str(order.typeID) for order in mo_result.orders]
+    tn_result = api.eve.TypeName(ids=','.join(item_ids))
+    item_names = [type.typeName for type in tn_result.types]
+    return ['%s %s/%s %s @ %.2f ISK, %s' % (bid_map[mo_result.orders[i].bid], mo_result.orders[i].volRemaining,
+                                            mo_result.orders[i].volEntered, item_names[i], mo_result.orders[i].price,
+                                            order_state_map[mo_result.orders[i].orderState])
+            for i in range(len(item_ids))]
