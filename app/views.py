@@ -169,3 +169,10 @@ def eve_skill_training():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
     return jsonify({'skilltraining': eveservices.get_skill_in_training(keyID, vCode)})
+
+@app.route('/eve/skillqueue', methods=['GET'])
+@support_jsonp
+def eve_skill_queue():
+    keyID = request.args.get('keyID')
+    vCode = request.args.get('vCode')
+    return jsonify({'skillqueue': eveservices.get_skill_queue(keyID, vCode)})
