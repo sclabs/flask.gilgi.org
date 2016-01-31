@@ -163,7 +163,7 @@ def eve_balance():
     vCode = request.args.get('vCode')
     return jsonify({'balance': eveservices.get_balance(keyID, vCode)})
 
-@app.route('eve/skilltraining', methods=['GET'])
+@app.route('/eve/skilltraining', methods=['GET'])
 @support_jsonp
 def eve_skill_training():
     keyID = request.args.get('keyID')
