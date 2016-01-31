@@ -1,7 +1,7 @@
 import os
 import telnetlib
 #from flask import send_from_directory
-from flask import jsonify, render_template, make_response
+from flask import jsonify, render_template, make_response, request
 from jsonp_decorator import support_jsonp
 from pyVent import VentriloServer
 from SourceQuery import SourceQuery
@@ -10,6 +10,7 @@ import steamservices
 import sc2services
 from minecraft_query import MinecraftQuery
 import dota2services
+import eveservices
 from app import app
 
 def online():
@@ -154,3 +155,10 @@ def minecraftstatus_html():
         #return send_from_directory("static", "online.html", mimetype="text/html")
     return offline()
     #return send_from_directory("static", "offline.html", mimetype="text/html")
+
+@app.route('/eve/balance', methods=['GET'])
+@support_jsonp
+def eve_balance():
+    keyID = request.args.get('keyID')
+    vCode = request.args.get('vCode')
+    return jsonify({'balance': eveservices.get_balance(keyID, vCode)})
