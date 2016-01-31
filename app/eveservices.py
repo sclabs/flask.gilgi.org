@@ -98,6 +98,18 @@ def get_skill_in_training(keyID, vCode):
     if st_result.skillInTraining:
         tn_result = api.eve.TypeName(ids=str(st_result.trainingTypeID))
         skill_name = tn_result.types[0].typeName
-        return 'currently training %s to level %s, finishes %s' % (skill_name, st_result.trainingToLevel, time.asctime(time.gmtime(st_result.trainingEndTime)))
+        return 'currently training %s to level %s, finishes %s' % (skill_name, st_result.trainingToLevel,
+                                                                   time.asctime(time.gmtime(st_result.trainingEndTime)))
     else:
         return 'no skill in training!'
+
+        
+def get_skill_queue(keyID, vCode):
+    me = get_first_char_ctx(keyID, vCode)
+    sq_result = me.SkillQueue()
+    skill_ids = [str(skill.typeID) for skill in sq_result.skillqueue]
+    tn_result = api.eve.TypeName(ids=','.join(skill_ids))
+    skill_names = [type.typeName for type in tn_result.types]
+    return ['%s to level %s finishes %s' % (skill_names[i], sq_result.skillqueue[i].level,
+                                            time.asctime(time.gmtime(sq_result.skillqueue[i].endTime)))
+            for i in range(len(skill_ids))]
