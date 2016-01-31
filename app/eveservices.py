@@ -78,7 +78,6 @@ class MyCacheHandler(object):
             f.close()
 
 
-eveapi.set_user_agent("gilgiflask")
 api = eveapi.EVEAPIConnection(cacheHandler=MyCacheHandler(debug=True))
 
 
