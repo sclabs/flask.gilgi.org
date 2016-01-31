@@ -161,25 +161,37 @@ def minecraftstatus_html():
 def eve_balance():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
-    return jsonify({'balance': eveservices.get_balance(keyID, vCode)})
+    try:
+        return jsonify({'balance': eveservices.get_balance(keyID, vCode)})
+    except Exception as e:
+        return jsonify({'balance': str(e)})
 
 @app.route('/eve/skilltraining', methods=['GET'])
 @support_jsonp
 def eve_skill_training():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
-    return jsonify({'skilltraining': eveservices.get_skill_in_training(keyID, vCode)})
+    try:
+        return jsonify({'skilltraining': eveservices.get_skill_in_training(keyID, vCode)})
+    except Exception as e:
+        return jsonify({'skilltraining': str(e)})
 
 @app.route('/eve/skillqueue', methods=['GET'])
 @support_jsonp
 def eve_skill_queue():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
-    return jsonify({'skillqueue': eveservices.get_skill_queue(keyID, vCode)})
+    try:
+        return jsonify({'skillqueue': eveservices.get_skill_queue(keyID, vCode)})
+    except Exception as e:
+        return jsonify({'skillqueue': [str(e)]})
 
 @app.route('/eve/orders', methods=['GET'])
 @support_jsonp
 def eve_orders():
     keyID = request.args.get('keyID')
     vCode = request.args.get('vCode')
-    return jsonify({'orders': eveservices.get_orders(keyID, vCode)})
+    try:
+        return jsonify({'orders': eveservices.get_orders(keyID, vCode)})
+    except Exception as e:
+        return jsonify({'orders': [str(e)]})
